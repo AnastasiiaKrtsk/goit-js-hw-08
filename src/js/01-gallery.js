@@ -5,7 +5,7 @@ import 'simplelightbox/dist/simple-lightbox.min.css';
 // Add imports above this line
 import { galleryItems } from './gallery-items';
 // Change code below this line
-//todo 1
+
 function createGallery(items) {
   const galleryList = document.querySelector('.gallery');
   const galleryMarkup = items
@@ -24,16 +24,24 @@ function createGallery(items) {
 createGallery(galleryItems);
 console.log(galleryItems);
 
-//todo 2
+const gallery = new SimpleLightbox('.gallery a', {
+  captionsData: 'alt',
+  captionDelay: 250,
+});
+
 document.querySelector('.gallery').addEventListener('click', event => {
   event.preventDefault();
   const target = event.target;
   const imageElement = target.closest('.gallery__image');
   if (imageElement) {
     const largeImageURL = imageElement.dataset.source;
-    const instance = basicLightbox.create(`
-      <img src="${largeImageURL}" alt="Large Image" />
-    `);
-    instance.show();
+    const instance = gallery.open({
+      items: [
+        {
+          src: largeImageURL,
+          type: 'image',
+        },
+      ],
+    });
   }
 });
